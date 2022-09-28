@@ -17,7 +17,10 @@ public:
          ttc.cols.push_back(col);
 
       textTableBuilder ttb(ttc);
-      S.addTo(ttb);
+      {
+         cardTableBuilder adapter(ttb);
+         S.addTo(adapter);
+      }
       std::cout << std::endl;
       ttb.format(std::cout);
       std::cout << std::endl;

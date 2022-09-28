@@ -18,12 +18,14 @@ class textTableBuilder {
 public:
    explicit textTableBuilder(textTableConfig& cfg);
 
-   void add(card& c);
+   const textTableConfig& getConfig() const { return m_cfg; }
+
+   void appendRow();
+   void appendCell(const std::string& value);
 
    void format(std::ostream& o);
 
 private:
-   void appendCell(const std::string& value);
    void computeRules();
    void format(std::vector<std::string>& row, std::ostream& o);
    std::string format(const std::string& cell, size_t i);
@@ -31,4 +33,14 @@ private:
    textTableConfig& m_cfg;
    std::vector<std::vector<std::string> > m_cells;
    std::vector<size_t> m_maxColWidth;
+};
+
+class cardTableBuilder {
+public:
+   explicit cardTableBuilder(textTableBuilder& ttb) : m_ttb(ttb) {}
+
+   void add(card& c);
+
+private:
+   textTableBuilder& m_ttb;
 };
