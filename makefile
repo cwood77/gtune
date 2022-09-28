@@ -35,7 +35,7 @@ dirs:
 # cmn
 
 CMN_SRC = \
-	src/cmn/dummy.cpp \
+	src/cmn/lines.cpp \
 
 CMN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(CMN_SRC)))
 
