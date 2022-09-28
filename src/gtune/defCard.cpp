@@ -16,3 +16,16 @@ void defaultCardFactory::createDefault(iStateCatalog& s)
    s.publish(*pC.release());
    s.dependsOn<cards,lines>();
 }
+
+void defaultCardSetFactory::createDefault(iStateCatalog& s)
+{
+   auto& C = s.demand<cards>();
+
+   std::unique_ptr<cardSet> pS(new cardSet());
+   pS->fill(C);
+
+   std::cout << "[default] created cardSet" << std::endl;
+
+   s.publish(*pS.release());
+   s.dependsOn<cardSet,cards>();
+}

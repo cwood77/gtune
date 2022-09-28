@@ -62,7 +62,7 @@ std::string streamInput::getNextWord(const char *&pThumb)
    const char *pStart = pThumb;
    for(;*pThumb!=' '&&*pThumb!=0;++pThumb);
    std::string word(pStart,pThumb-pStart);
-   if(pThumb!=0)
+   if(*pThumb!=0)
       ++pThumb;
    return word;
 }

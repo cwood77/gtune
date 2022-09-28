@@ -1,5 +1,4 @@
 #include "../cmn/lines.hpp"
-#include "defCard.hpp"
 #include "run.hpp"
 #include <fstream>
 #include <iostream>

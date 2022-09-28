@@ -25,6 +25,7 @@ int main(int,const char *[])
 
       stateCatalog state;
       state.registerDefault<cards>(*new defaultCardFactory());
+      state.registerDefault<cardSet>(*new defaultCardSetFactory());
 
       interactivePrompt pmpt;
       streamInput in(std::cin,pmpt);
