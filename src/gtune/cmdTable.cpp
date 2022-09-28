@@ -30,4 +30,3 @@ private:
 };
 
 static autoCommandInfo<tableCommand> gTableCmd("table");
-

@@ -19,4 +19,3 @@ private:
 };
 
 static autoCommandInfo<schemaCommand> gSchemaCmd("schema");
-
