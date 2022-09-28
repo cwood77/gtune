@@ -22,8 +22,8 @@ public:
    streamInput(std::istream& s, iInputPrompt& p) : m_s(s), m_p(p) {}
 
    virtual std::string getFirstWord();
-   virtual const std::string& getRestOfLine() { throw __LINE__; }
-   virtual std::vector<std::string> getRemainingWords() { throw __LINE__; }
+   virtual std::string getRestOfLine();
+   virtual std::vector<std::string> getRemainingWords();
    virtual bool nextLine();
 
 private:

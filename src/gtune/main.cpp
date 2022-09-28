@@ -1,9 +1,10 @@
 #include "../cmn/card.hpp"
 #include "../cmn/lines.hpp"
 #include "../cmn/textTable.hpp"
+#include "defCard.hpp"
+#include "intinput.hpp"
 #include <fstream>
 #include <iostream>
-#include "intinput.hpp"
 
 class quitCommandInfo : public iCommandInfo {
 private:
@@ -22,6 +23,7 @@ int main(int,const char *[])
    commandRegistry::get().registerCommand(q);
 
    stateCatalog state;
+   state.registerDefault<cards>(*new defaultCardFactory());
 
    interactivePrompt pmpt;
    streamInput in(std::cin,pmpt);

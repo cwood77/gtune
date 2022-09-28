@@ -18,6 +18,34 @@ std::string streamInput::getFirstWord()
    return getNextWord(pThumb);
 }
 
+std::string streamInput::getRestOfLine()
+{
+   const char *pThumb = m_curLine.c_str();
+   getNextWord(pThumb);
+   return pThumb;
+}
+
+std::vector<std::string> streamInput::getRemainingWords()
+{
+   std::vector<std::string> v;
+   const char *pThumb = m_curLine.c_str();
+   bool first = true;
+   while(true)
+   {
+      auto word = getNextWord(pThumb);
+      if(word.length())
+      {
+         if(first)
+            first = false;
+         else
+            v.push_back(word);
+      }
+      if(*pThumb == 0)
+         break;
+   }
+   return v;
+}
+
 bool streamInput::nextLine()
 {
    if(!m_s.good())

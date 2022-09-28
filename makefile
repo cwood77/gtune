@@ -64,6 +64,8 @@ $(CMN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 
 GTUNE_SRC = \
 	src/gtune/cmdLoad.cpp \
+	src/gtune/cmdSchema.cpp \
+	src/gtune/defCard.cpp \
 	src/gtune/intinput.cpp \
 	src/gtune/main.cpp \
 	src/gtune/run.cpp \
