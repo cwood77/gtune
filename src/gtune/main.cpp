@@ -1,5 +1,7 @@
+#include "../cmn/card.hpp"
 #include "../cmn/lines.hpp"
 #include <fstream>
+#include <iostream>
 
 int main(int,const char *[])
 {
@@ -9,6 +11,10 @@ int main(int,const char *[])
    lineReader::load(fstream,L);
 
    lineClassifier::run(L);
+
+   cards C;
+   schemaBuilder::build(L,C.s);
+   std::cout << C.s << std::endl;
 
    return 0;
 }
