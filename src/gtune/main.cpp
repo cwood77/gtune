@@ -19,35 +19,38 @@ public:
 
 int main(int,const char *[])
 {
-   quitCommandInfo q;
-   commandRegistry::get().registerCommand(q);
-
-   stateCatalog state;
-   state.registerDefault<cards>(*new defaultCardFactory());
-
-   interactivePrompt pmpt;
-   streamInput in(std::cin,pmpt);
-
-   while(in.nextLine())
    {
-      try
+      quitCommandInfo q;
+      commandRegistry::get().registerCommand(q);
+
+      stateCatalog state;
+      state.registerDefault<cards>(*new defaultCardFactory());
+
+      interactivePrompt pmpt;
+      streamInput in(std::cin,pmpt);
+
+      while(in.nextLine())
       {
-         std::unique_ptr<iCommand> pCmd(commandRegistry::get().create(in,state));
          try
          {
-            pCmd->run();
+            std::unique_ptr<iCommand> pCmd(commandRegistry::get().create(in,state));
+            try
+            {
+               pCmd->run();
+            }
+            catch(haltException&)
+            {
+               std::cout << "quitting" << std::endl;
+               break;
+            }
          }
-         catch(haltException&)
+         catch(std::exception& x)
          {
-            std::cout << "quitting" << std::endl;
-            break;
+            std::cout << "ERROR: " << x.what() << std::endl;
          }
-      }
-      catch(std::exception& x)
-      {
-         std::cout << "ERROR: " << x.what() << std::endl;
       }
    }
+   std::cout << "bye" << std::endl;
 
 #if 0
    // load <path>

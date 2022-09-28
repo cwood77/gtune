@@ -6,9 +6,12 @@ stateCatalog::~stateCatalog()
 {
    for(auto it=m_order.rbegin();it!=m_order.rend();++it)
    {
-      std::cout << "[state] deleting '" << *it << "'" << std::endl;
       auto *pPtr = m_cat[*it];
-      delete pPtr;
+      if(pPtr)
+      {
+         std::cout << "[state] deleting '" << *it << "'" << std::endl;
+         delete pPtr;
+      }
       m_cat.erase(*it);
    }
    if(m_cat.size())
@@ -28,10 +31,24 @@ void stateCatalog::_replace(const std::string& key, iState& value)
    }
    else
    {
-      std::cout << "[warning] replacing value for '" << key << "'" << std::endl;
-      delete pOld;
-      pOld = &value;
+      erase(key);
+      m_cat[key] = &value;
    }
+}
+
+void stateCatalog::erase(const std::string& key)
+{
+   auto it = m_cat.find(key);
+   if(it == m_cat.end())
+      return;
+
+   std::cout << "[warning] erasing existing value for '" << key << "'" << std::endl;
+   delete it->second;
+   m_cat.erase(it);
+
+   auto inv = m_invalidMap[key];
+   for(auto dep : inv)
+      erase(dep);
 }
 
 iState *stateCatalog::_fetch(const std::string& key)
@@ -52,6 +69,11 @@ iState *stateCatalog::_fetch(const std::string& key)
       return NULL;
    else
       return it->second;
+}
+
+void stateCatalog::_setDep(const std::string& obj, const std::string& dep)
+{
+   m_invalidMap[dep].insert(obj);
 }
 
 void stateCatalog::_registerDefault(const std::string& key, iDefaultStateFactory& f)

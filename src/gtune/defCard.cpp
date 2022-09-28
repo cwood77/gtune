@@ -14,4 +14,5 @@ void defaultCardFactory::createDefault(iStateCatalog& s)
    std::cout << "[default] created " << pC->c.size() << " card(s)" << std::endl;
 
    s.publish(*pC.release());
+   s.dependsOn<cards,lines>();
 }

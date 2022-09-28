@@ -2,6 +2,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -44,12 +45,16 @@ public:
       return *_pS->pPtr.get();
    }
 
+   template<class T, class U> void dependsOn()
+   { _setDep(typeid(T).name(),typeid(U).name()); }
+
    template<class T> void registerDefault(iDefaultStateFactory& f)
    { _registerDefault(typeid(T).name(),f); }
 
 protected:
    virtual void _replace(const std::string& key, iState& value) = 0;
    virtual iState *_fetch(const std::string& key) = 0;
+   virtual void _setDep(const std::string& obj, const std::string& dep) = 0;
    virtual void _registerDefault(const std::string& key, iDefaultStateFactory& f) = 0;
 };
 
@@ -60,12 +65,16 @@ public:
 protected:
    virtual void _replace(const std::string& key, iState& value);
    virtual iState *_fetch(const std::string& key);
+   virtual void _setDep(const std::string& obj, const std::string& dep);
    virtual void _registerDefault(const std::string& key, iDefaultStateFactory& f);
 
 private:
+   void erase(const std::string& key);
+
    std::map<std::string,iState*> m_cat;
    std::list<std::string> m_order;
    std::map<std::string,iDefaultStateFactory*> m_df;
+   std::map<std::string,std::set<std::string> > m_invalidMap;
 };
 
 // input --------------------------------------------------------
