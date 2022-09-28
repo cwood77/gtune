@@ -15,21 +15,28 @@ const std::string& card::getField(const std::string& tag) const
       // compute value and stash it for later computes
       std::stringstream stream;
 
-      // sweep over subsequent lines until the next tag
-      line *pTagLine = tags.find(tag)->second;
-      lines& L = *pTagLine->pOwner;
-      size_t idx = pTagLine->index+1;
-      for(;idx < L.l.size();idx++)
+      auto tit = tags.find(tag);
+      if(tit == tags.end())
+         // this card doesn't have this tag
+         stream << "<?>";
+      else
       {
-         auto& l = L.l[idx];
-         if(l.type != line::kTag)
+         // sweep over subsequent lines until the next tag
+         line *pTagLine = tit->second;
+         lines& L = *pTagLine->pOwner;
+         size_t idx = pTagLine->index+1;
+         for(;idx < L.l.size();idx++)
          {
-            if(!stream.str().empty())
-               stream << std::endl;
-            stream << l.text;
+            auto& l = L.l[idx];
+            if(l.type != line::kTag)
+            {
+               if(!stream.str().empty())
+                  stream << std::endl;
+               stream << l.text;
+            }
+            else
+               break;
          }
-         else
-            break;
       }
 
       // post-process: shave off trailing newline
@@ -70,6 +77,11 @@ void schemaBuilder::onTag(line& l)
    {
       m_s.singleLineTags.erase(l.tag);
    }
+
+   auto& cnt = m_s.tagCounts[l.tag];
+   cnt++;
+   if(cnt > m_s.maxTagCount)
+      m_s.maxTagCount = cnt;
 }
 
 std::ostream& operator<<(std::ostream& o, const cardSchema& s)
@@ -81,9 +93,13 @@ std::ostream& operator<<(std::ostream& o, const cardSchema& s)
    for(auto it=s.tags.begin();it!=s.tags.end();++it)
    {
       bool isSingleLine = (s.singleLineTags.find(it->first) != s.singleLineTags.end());
+      bool isSparse = (s.tagCounts.find(it->first)->second != s.maxTagCount);
+
       o << "   " << it->first;
       if(isSingleLine)
          o << " [single-line]";
+      if(isSparse)
+         o << " [sparse]";
       o << std::endl;
    }
 

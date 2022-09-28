@@ -9,8 +9,12 @@ class lines;
 
 class cardSchema {
 public:
+   cardSchema() : maxTagCount(0) {}
+
    std::map<std::string,line*> tags;
    std::set<std::string> singleLineTags;
+   std::map<std::string,size_t> tagCounts;
+   size_t maxTagCount;
 };
 
 std::ostream& operator<<(std::ostream& o, const cardSchema& s);
