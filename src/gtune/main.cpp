@@ -6,7 +6,7 @@
 
 int main(int,const char *[])
 {
-   std::string filePath = "C:\\cygwin64\\home\\cwood\\dev\\gtune\\testdata.txt";
+   std::string filePath = "C:\\Users\\cwood\\Desktop\\game21 - nostoi\\crayon\\adv.txt";
    std::ifstream fstream(filePath.c_str());
    lines L;
    lineReader::load(fstream,L);
@@ -18,24 +18,18 @@ int main(int,const char *[])
    std::cout << C.s << std::endl;
 
    cardBuilder::build(L,C);
-   std::cout << "found " << C.c.size() << " card(s)" << std::endl;
 
+   if(1)
    {
       cardSet S;
+      S.c.fields.push_back("suit");
+      S.c.fields.push_back("title");
       S.fill(C);
-      for(auto *pC : S.s)
-         std::cout << "onCard '" << (*pC)["name"] << "'" << std::endl;
-   }
-   {
-      cardSet S;
-      S.c.fields.push_back("name");
-      S.fill(C);
-      for(auto *pC : S.s)
-         std::cout << "onCard '" << (*pC)["name"] << "'" << std::endl;
 
       textTableConfig ttc;
-      ttc.cols.push_back("name");
-      ttc.cols.push_back("desc");
+      ttc.cols.push_back("suit");
+      ttc.cols.push_back("title");
+      ttc.cols.push_back("subtitle");
       textTableBuilder ttb(ttc);
       S.addTo(ttb);
       ttb.format(std::cout);

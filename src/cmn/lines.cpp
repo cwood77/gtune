@@ -1,6 +1,5 @@
 #include "lines.hpp"
 #include <cstring>
-#include <iostream>
 
 void lineReader::load(std::istream& s, lines& l)
 {
@@ -54,8 +53,6 @@ void lineClassifier::run(line& l)
       else
          l.type = line::kPreamble;
    }
-
-   std::cout << "line: '" << l.text << "' -> " << l.type << std::endl;
 }
 
 void lineClassifier::openTag(line& l)
@@ -82,8 +79,6 @@ bool lineClassifier::tryParseTag(const std::string& text, std::string& tag)
       return false;
 
    tag = std::string(text.c_str()+2,text.length()-4);
-
-   std::cout << "tagparse: " << text << " => " << tag << std::endl;
 
    return true;
 }

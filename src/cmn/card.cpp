@@ -83,7 +83,7 @@ std::ostream& operator<<(std::ostream& o, const cardSchema& s)
       bool isSingleLine = (s.singleLineTags.find(it->first) != s.singleLineTags.end());
       o << "   " << it->first;
       if(isSingleLine)
-         o << " [sl]";
+         o << " [single-line]";
       o << std::endl;
    }
 
