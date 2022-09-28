@@ -23,7 +23,7 @@ public:
 class cards {
 public:
    cardSchema s;
-   std::list<card*> c;
+   std::list<card> c;
 };
 
 class schemaBuilder {
@@ -41,6 +41,14 @@ private:
 class cardBuilder {
 public:
    static void build(lines& l, cards& c);
+
+private:
+   cardBuilder(cards& c) : m_c(c), m_pCurrCard(NULL) {}
+
+   void onTag(line& l);
+
+   cards& m_c;
+   card *m_pCurrCard;
 };
 
 // class cardSortCriteria {

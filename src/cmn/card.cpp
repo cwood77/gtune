@@ -47,3 +47,37 @@ std::ostream& operator<<(std::ostream& o, const cardSchema& s)
 
    return o;
 }
+
+void cardBuilder::build(lines& l, cards& c)
+{
+   cardBuilder self(c);
+   for(auto& lin : l.l)
+      if(lin.type == line::kTag)
+         self.onTag(lin);
+}
+
+void cardBuilder::onTag(line& l)
+{
+   if(m_pCurrCard == NULL)
+   {
+      // no active card... create one
+      m_c.c.push_back(card());
+      m_pCurrCard = &m_c.c.back();
+      m_pCurrCard->tags[l.tag] = &l;
+   }
+   else
+   {
+      bool alreadyHas = (m_pCurrCard->tags.find(l.tag) != m_pCurrCard->tags.end());
+      if(alreadyHas)
+      {
+         // time for new card
+         m_pCurrCard = NULL;
+         onTag(l);
+      }
+      else
+      {
+         // add new tag to existing card
+         m_pCurrCard->tags[l.tag] = &l;
+      }
+   }
+}

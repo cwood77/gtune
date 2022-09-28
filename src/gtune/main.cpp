@@ -16,5 +16,8 @@ int main(int,const char *[])
    schemaBuilder::build(L,C.s);
    std::cout << C.s << std::endl;
 
+   cardBuilder::build(L,C);
+   std::cout << "found " << C.c.size() << " card(s)" << std::endl;
+
    return 0;
 }
