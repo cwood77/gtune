@@ -18,6 +18,13 @@ std::ostream& operator<<(std::ostream& o, const cardSchema& s);
 class card {
 public:
    std::map<std::string,line*> tags;
+
+   const std::string& getField(const std::string& tag) const;
+
+   const std::string& operator[](const std::string& tag) const { return getField(tag); }
+
+private:
+   mutable std::map<std::string,std::string> m_fieldCache;
 };
 
 class cards {
@@ -51,10 +58,21 @@ private:
    card *m_pCurrCard;
 };
 
-// class cardSortCriteria {
-// };
-// 
-// class cardSet {
-// public:
-//    std::set<
-// };
+class cardSortCriteria {
+public:
+   typedef card* arg_t;
+   bool operator()(const arg_t& lhs, const arg_t& rhs) const { return isLess(lhs,rhs); }
+
+   std::list<std::string> fields;
+
+private:
+   bool isLess(const card *pLhs, const card *pRhs) const;
+};
+
+class cardSet {
+public:
+   cardSortCriteria c;
+   std::set<card*,cardSortCriteria> s;
+
+   void fill(cards& C);
+};

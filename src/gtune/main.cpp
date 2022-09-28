@@ -19,5 +19,19 @@ int main(int,const char *[])
    cardBuilder::build(L,C);
    std::cout << "found " << C.c.size() << " card(s)" << std::endl;
 
+   {
+      cardSet S;
+      S.fill(C);
+      for(auto *pC : S.s)
+         std::cout << "onCard '" << (*pC)["name"] << "'" << std::endl;
+   }
+   {
+      cardSet S;
+      S.c.fields.push_back("name");
+      S.fill(C);
+      for(auto *pC : S.s)
+         std::cout << "onCard '" << (*pC)["name"] << "'" << std::endl;
+   }
+
    return 0;
 }

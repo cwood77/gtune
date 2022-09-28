@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+class lines;
+
 class line {
 public:
    enum types {
@@ -22,6 +24,8 @@ public:
    std::string tag;
    std::string directive;
    std::string text;
+   lines *pOwner;
+   size_t index;
 };
 
 class lines {

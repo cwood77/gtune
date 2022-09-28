@@ -12,7 +12,10 @@ void lineReader::load(std::istream& s, lines& l)
       l.l.push_back(line());
       auto& line = l.l.back();
       line.type = line::kUnclassified;
+      line.flags = 0;
       line.text = sline;
+      line.pOwner = &l;
+      line.index = l.l.size() - 1;
    }
 }
 
