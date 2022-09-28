@@ -9,7 +9,7 @@ void interactivePrompt::prompt()
       m_first = false;
    }
 
-   std::cout << ">";
+   std::cout << "gT>";
 }
 
 std::string streamInput::getFirstWord()
