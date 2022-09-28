@@ -103,6 +103,13 @@ std::ostream& operator<<(std::ostream& o, const cardSchema& s)
       o << std::endl;
    }
 
+   if(s.projected.size())
+   {
+      o << "+" << s.projected.size() << " projected field(s)" << std::endl;
+      for(auto f : s.projected)
+         o << "   " << f << std::endl;
+   }
+
    o
       << "}";
    ;

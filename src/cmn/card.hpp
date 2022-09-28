@@ -15,6 +15,7 @@ public:
    std::set<std::string> singleLineTags;
    std::map<std::string,size_t> tagCounts;
    size_t maxTagCount;
+   std::set<std::string> projected;
 };
 
 std::ostream& operator<<(std::ostream& o, const cardSchema& s);
@@ -24,6 +25,8 @@ public:
    std::map<std::string,line*> tags;
 
    const std::string& getField(const std::string& tag) const;
+   void setField(const std::string& tag, const std::string& value)
+   { m_fieldCache[tag] = value; }
 
    const std::string& operator[](const std::string& tag) const { return getField(tag); }
 

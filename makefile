@@ -37,6 +37,7 @@ dirs:
 CMN_SRC = \
 	src/cmn/card.cpp \
 	src/cmn/lines.cpp \
+	src/cmn/pred.cpp \
 	src/cmn/textTable.cpp \
 
 CMN_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(CMN_SRC)))
@@ -64,6 +65,7 @@ $(CMN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 
 GTUNE_SRC = \
 	src/gtune/cmdLoad.cpp \
+	src/gtune/cmdProject.cpp \
 	src/gtune/cmdSchema.cpp \
 	src/gtune/cmdSort.cpp \
 	src/gtune/cmdTable.cpp \
