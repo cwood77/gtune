@@ -63,7 +63,10 @@ $(CMN_RELEASE_OBJ): $(OBJ_DIR)/release/%.o: src/%.cpp
 # gtune
 
 GTUNE_SRC = \
+	src/gtune/cmdLoad.cpp \
+	src/gtune/intinput.cpp \
 	src/gtune/main.cpp \
+	src/gtune/run.cpp \
 
 GTUNE_DEBUG_OBJ = $(subst src,$(OBJ_DIR)/debug,$(patsubst %.cpp,%.o,$(GTUNE_SRC)))
 
