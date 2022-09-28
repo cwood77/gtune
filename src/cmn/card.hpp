@@ -75,4 +75,11 @@ public:
    std::set<card*,cardSortCriteria> s;
 
    void fill(cards& C);
+
+   template<class T>
+   void addTo(T& o)
+   {
+      for(auto *pC : s)
+         o.add(*pC);
+   }
 };
