@@ -90,3 +90,19 @@ public:
          o.add(*pC);
    }
 };
+
+class histogram {
+public:
+   histogram(const std::string& tag) : m_tag(tag) {}
+
+   void add(card& c);
+
+   void format(std::ostream& s);
+
+private:
+   void buildRevValues();
+
+   std::string m_tag;
+   std::map<std::string,size_t> m_values;
+   std::map<size_t,std::set<std::string> > m_revValues;
+};

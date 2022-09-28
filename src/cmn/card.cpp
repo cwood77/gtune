@@ -1,5 +1,6 @@
 #include "card.hpp"
 #include "lines.hpp"
+#include "textTable.hpp"
 #include <sstream>
 
 static bool isLastChar(const char *string, size_t slen, char c)
@@ -170,4 +171,43 @@ void cardSet::fill(cards& C)
 
    for(auto& c : C.c)
       s.insert(&c);
+}
+
+void histogram::add(card& c)
+{
+   m_values[c[m_tag]]++;
+}
+
+void histogram::format(std::ostream& s)
+{
+   buildRevValues();
+
+   textTableConfig ttc;
+   ttc.cols.push_back("#");
+   ttc.cols.push_back("value");
+   textTableBuilder ttb(ttc);
+
+   for(auto it=m_revValues.rbegin();it!=m_revValues.rend();++it)
+   {
+      std::stringstream cnt;
+      cnt << it->first;
+
+      auto& V = it->second;
+      for(auto v : V)
+      {
+         ttb.appendRow();
+         ttb.appendCell(cnt.str());
+         ttb.appendCell(v);
+      }
+   }
+
+   ttb.format(s);
+}
+
+void histogram::buildRevValues()
+{
+   m_revValues.clear();
+
+   for(auto it=m_values.begin();it!=m_values.end();++it)
+      m_revValues[it->second].insert(it->first);
 }

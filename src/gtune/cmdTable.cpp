@@ -21,6 +21,7 @@ public:
          cardTableBuilder adapter(ttb);
          S.addTo(adapter);
       }
+
       std::cout << std::endl;
       ttb.format(std::cout);
       std::cout << std::endl;
