@@ -33,13 +33,10 @@ std::vector<std::string> streamInput::getRemainingWords()
    while(true)
    {
       auto word = getNextWord(pThumb);
-      if(word.length())
-      {
-         if(first)
-            first = false;
-         else
-            v.push_back(word);
-      }
+      if(first)
+         first = false;
+      else
+         v.push_back(word);
       if(*pThumb == 0)
          break;
    }
@@ -59,10 +56,25 @@ bool streamInput::nextLine()
 
 std::string streamInput::getNextWord(const char *&pThumb)
 {
+   bool isQuoted = (*pThumb == '"');
+   if(isQuoted)
+      pThumb++;
+
    const char *pStart = pThumb;
-   for(;*pThumb!=' '&&*pThumb!=0;++pThumb);
+   for(;*pThumb!=0;++pThumb)
+   {
+      if(isQuoted && *pThumb == '"')
+         break;
+      else if(!isQuoted && *pThumb == ' ')
+         break;
+   }
+
    std::string word(pStart,pThumb-pStart);
+
+   if(*pThumb=='"')
+      ++pThumb;
    if(*pThumb!=0)
       ++pThumb;
+
    return word;
 }

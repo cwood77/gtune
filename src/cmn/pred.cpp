@@ -41,6 +41,17 @@ public:
    }
 };
 
+class any : public iPred {
+public:
+   virtual void evaluate(predValueStack& v)
+   {
+      bool value = false;
+      while(v.size())
+         value = v.pop().toBool() || value;
+      v.push(predValue::fromBool(value));
+   }
+};
+
 } // anonymous namespace
 
 predChain::~predChain()
@@ -59,6 +70,8 @@ iPred *predFactory::create(const std::string& name)
 {
    if(name == "==")
       return new isEqual();
+   else if(name == "any")
+      return new any();
    else if(name.c_str()[0] == '.')
       return new fieldValue(name.c_str()+1);
    else

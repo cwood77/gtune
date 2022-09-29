@@ -8,13 +8,12 @@ public:
 
    virtual void run()
    {
-      auto& S = m_s.demand<cardSet>();
-
       histogram c;
       auto words = m_i.getRemainingWords();
       for(auto word : words)
          c.tags.insert(word);
 
+      auto& S = m_s.demand<cardSet>();
       S.addTo(c);
 
       std::cout << std::endl;

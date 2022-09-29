@@ -32,6 +32,18 @@ int main(int,const char *[])
 
       while(in.nextLine())
       {
+         if(0)
+         {
+            // debug in
+            std::cout << "FW:'" << in.getFirstWord() << "'" << std::endl;
+            std::cout << "RoL:'" << in.getRestOfLine() << "'" << std::endl;
+            auto words = in.getRemainingWords();
+            for(auto w : words)
+               std::cout << "{" << w << "}";
+            std::cout << std::endl;
+            continue;
+         }
+
          try
          {
             std::unique_ptr<iCommand> pCmd(commandRegistry::get().create(in,state));
