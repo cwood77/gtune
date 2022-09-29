@@ -18,6 +18,16 @@ void lineReader::load(std::istream& s, lines& l)
    }
 }
 
+void lineWriter::save(lines& l, std::ostream& s)
+{
+   for(size_t i=0;i<l.l.size();i++)
+   {
+      s << l.l[i].text;
+      if(i+1 != l.l.size())
+         s << std::endl;
+   }
+}
+
 void lineClassifier::run(lines& l)
 {
    lineClassifier self;

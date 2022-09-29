@@ -68,7 +68,9 @@ GTUNE_SRC = \
 	src/gtune/cmdHist.cpp \
 	src/gtune/cmdLoad.cpp \
 	src/gtune/cmdProject.cpp \
+	src/gtune/cmdSave.cpp \
 	src/gtune/cmdSchema.cpp \
+	src/gtune/cmdSetf.cpp \
 	src/gtune/cmdSort.cpp \
 	src/gtune/cmdTable.cpp \
 	src/gtune/defCard.cpp \

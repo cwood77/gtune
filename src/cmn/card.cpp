@@ -1,6 +1,7 @@
 #include "card.hpp"
 #include "lines.hpp"
 #include "textTable.hpp"
+#include <iostream>
 #include <sstream>
 
 static bool isLastChar(const char *string, size_t slen, char c)
@@ -14,6 +15,7 @@ const std::string& card::getField(const std::string& tag) const
    if(it == m_fieldCache.end())
    {
       // compute value and stash it for later computes
+
       std::stringstream stream;
 
       auto tit = tags.find(tag);
@@ -24,6 +26,7 @@ const std::string& card::getField(const std::string& tag) const
       {
          // sweep over subsequent lines until the next tag
          line *pTagLine = tit->second;
+         std::set<line*> payloads;
          lines& L = *pTagLine->pOwner;
          size_t idx = pTagLine->index+1;
          for(;idx < L.l.size();idx++)
@@ -34,10 +37,17 @@ const std::string& card::getField(const std::string& tag) const
                if(!stream.str().empty())
                   stream << std::endl;
                stream << l.text;
+
+               if(l.type != line::kBlankLine)
+                  payloads.insert(&l);
             }
             else
                break;
          }
+
+         // note whether this is a single-line field (i.e. writable)
+         if(payloads.size() == 1)
+            m_singleLineField[tag] = *payloads.begin();
       }
 
       // post-process: shave off trailing newline
@@ -53,6 +63,36 @@ const std::string& card::getField(const std::string& tag) const
       it = m_fieldCache.find(tag);
    }
    return it->second;
+}
+
+void card::setField(const std::string& tag, const std::string& value)
+{
+   auto oldValue = getField(tag);
+   if(oldValue != value)
+   {
+      m_fieldCache[tag] = value;
+      m_changed.insert(tag);
+   }
+}
+
+size_t card::updateLines()
+{
+   size_t nLinesChanged = 0;
+
+   for(auto tag : m_changed)
+   {
+      auto sit = m_singleLineField.find(tag);
+      if(sit == m_singleLineField.end())
+      {
+         std::cout << "[warning] cannot update changed field '" << tag << "' b/c it is multiline or projected" << std::endl;
+         continue;
+      }
+
+      sit->second->text = m_fieldCache[tag];
+      nLinesChanged++;
+   }
+
+   return nLinesChanged;
 }
 
 void schemaBuilder::build(lines& l, cardSchema& s)

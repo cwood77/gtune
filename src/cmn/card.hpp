@@ -25,13 +25,16 @@ public:
    std::map<std::string,line*> tags;
 
    const std::string& getField(const std::string& tag) const;
-   void setField(const std::string& tag, const std::string& value)
-   { m_fieldCache[tag] = value; }
+   void setField(const std::string& tag, const std::string& value);
 
    const std::string& operator[](const std::string& tag) const { return getField(tag); }
 
+   size_t updateLines();
+
 private:
    mutable std::map<std::string,std::string> m_fieldCache;
+   mutable std::map<std::string,line*> m_singleLineField;
+   std::set<std::string> m_changed;
 };
 
 class cards {

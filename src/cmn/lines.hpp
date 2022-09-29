@@ -30,12 +30,18 @@ public:
 
 class lines {
 public:
+   std::string filePath;
    std::vector<line> l;
 };
 
 class lineReader {
 public:
    static void load(std::istream& s, lines& l);
+};
+
+class lineWriter {
+public:
+   static void save(lines& l, std::ostream& s);
 };
 
 class lineClassifier {

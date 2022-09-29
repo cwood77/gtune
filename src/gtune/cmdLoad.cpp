@@ -20,6 +20,7 @@ public:
             path = "C:\\Users\\cwood\\Desktop\\game19 - Cabin in the Woods\\mythos.txt";
 
          std::cout << "loading '" << path << "'" << std::endl;
+         pL->filePath = path;
          std::ifstream fstream(path.c_str());
          if(!fstream.good())
             throw std::runtime_error("file can't be loaded");
