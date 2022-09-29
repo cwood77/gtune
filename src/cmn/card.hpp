@@ -1,11 +1,9 @@
 #pragma once
+#include "lines.hpp"
 #include <list>
 #include <map>
 #include <set>
 #include <string>
-
-class line;
-class lines;
 
 class cardSchema {
 public:
@@ -36,6 +34,8 @@ public:
    const std::string& operator[](const std::string& tag) const { return getField(tag); }
 
    size_t updateLines();
+
+   void addFieldIf(const std::string& tag, std::list<linePatch>& p);
 
 private:
    mutable std::map<std::string,std::string> m_fieldCache;

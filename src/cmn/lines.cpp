@@ -1,6 +1,25 @@
 #include "lines.hpp"
 #include <cstring>
 
+void lines::inject(std::vector<line>& more, size_t before)
+{
+   // inject it
+   auto it = l.begin();
+   for(size_t i=0;i<before;i++)
+      ++it;
+   l.insert(it,more.begin(),more.end());
+
+   // reset the indicies and links
+   it = l.begin();
+   for(size_t i=0;i<before;i++)
+      ++it;
+   for(;it!=l.end();++it,before++)
+   {
+      it->pOwner = this;
+      it->index = before;
+   }
+}
+
 void lineReader::load(std::istream& s, lines& l)
 {
    while(s.good())

@@ -27,16 +27,26 @@ public:
       std::cout << "updated " << nCards << " card(s)" << std::endl;
       std::cout << "updated " << nLines << " line(s)" << std::endl;
 
+      auto& L = m_s.demand<lines>();
       if(!nLines)
-         std::cout << "nothing to do; save aborted" << std::endl;
-      else
       {
-         auto& L = m_s.demand<lines>();
+         std::cout << "no cards were changed" << std::endl;
+         if(L.dirty)
+         {
+            nLines = 1;
+            std::cout << " but saving anyway because lines are dirty" << std::endl;
+         }
+      }
+
+      if(nLines)
+      {
          auto path = L.filePath + "-updated";
          std::cout << "writing to '" << path << "'" << std::endl;
          std::ofstream out(path.c_str());
          lineWriter::save(L,out);
       }
+      else
+         std::cout << "skipping actual save" << std::endl;
    }
 
 private:

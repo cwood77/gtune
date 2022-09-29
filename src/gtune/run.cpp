@@ -46,9 +46,7 @@ void stateCatalog::erase(const std::string& key)
    delete it->second;
    m_cat.erase(it);
 
-   auto inv = m_invalidMap[key];
-   for(auto dep : inv)
-      erase(dep);
+   _invalidateDeps(key);
 }
 
 iState *stateCatalog::_fetch(const std::string& key)
@@ -82,6 +80,13 @@ void stateCatalog::_registerDefault(const std::string& key, iDefaultStateFactory
    if(pOld != NULL)
       delete pOld;
    pOld = &f;
+}
+
+void stateCatalog::_invalidateDeps(const std::string& key)
+{
+   auto inv = m_invalidMap[key];
+   for(auto dep : inv)
+      erase(dep);
 }
 
 commandRegistry& commandRegistry::get()

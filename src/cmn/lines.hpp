@@ -28,10 +28,22 @@ public:
    size_t index;
 };
 
+class linePatch {
+public:
+   std::vector<line> lines;
+   size_t at;
+};
+
 class lines {
 public:
+   lines() : dirty(false) {}
+
    std::string filePath;
    std::vector<line> l;
+   bool dirty;
+
+   void inject(std::vector<line>& more, size_t before);
+   void inject(linePatch& p) { inject(p.lines,p.at); }
 };
 
 class lineReader {

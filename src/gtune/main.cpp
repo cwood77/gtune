@@ -19,6 +19,52 @@ public:
 
 int main(int,const char *[])
 {
+   if(0)
+   {
+      lines L;
+
+      std::vector<line> patch;
+      patch.resize(2);
+      patch[0].text = "a";
+      patch[1].text = "b";
+
+      std::cout << "---" << std::endl;
+      L.inject(patch,0);
+
+      for(auto& l : L.l)
+      {
+         std::cout << l.text << std::endl;
+         std::cout << l.index << std::endl;
+         std::cout << "   " << (l.pOwner == &L) << std::endl;
+      }
+
+      patch[0].text = "c";
+      patch[1].text = "d";
+      std::cout << "---" << std::endl;
+      L.inject(patch,2);
+
+      for(auto& l : L.l)
+      {
+         std::cout << l.text << std::endl;
+         std::cout << l.index << std::endl;
+         std::cout << "   " << (l.pOwner == &L) << std::endl;
+      }
+
+      /*
+      std::cout << "---" << std::endl;
+      L.inject(patch,1);
+
+      for(auto& l : L.l)
+      {
+         std::cout << l.text << std::endl;
+         std::cout << l.index << std::endl;
+         std::cout << "   " << (l.pOwner == &L) << std::endl;
+      }
+      */
+
+      return 0;
+   }
+
    {
       quitCommandInfo q;
       commandRegistry::get().registerCommand(q);

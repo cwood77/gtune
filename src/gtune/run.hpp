@@ -51,11 +51,15 @@ public:
    template<class T> void registerDefault(iDefaultStateFactory& f)
    { _registerDefault(typeid(T).name(),f); }
 
+   template<class T> void invalidateDeps()
+   { _invalidateDeps(typeid(T).name()); }
+
 protected:
    virtual void _replace(const std::string& key, iState& value) = 0;
    virtual iState *_fetch(const std::string& key) = 0;
    virtual void _setDep(const std::string& obj, const std::string& dep) = 0;
    virtual void _registerDefault(const std::string& key, iDefaultStateFactory& f) = 0;
+   virtual void _invalidateDeps(const std::string& key) = 0;
 };
 
 class stateCatalog : public iStateCatalog {
@@ -67,6 +71,7 @@ protected:
    virtual iState *_fetch(const std::string& key);
    virtual void _setDep(const std::string& obj, const std::string& dep);
    virtual void _registerDefault(const std::string& key, iDefaultStateFactory& f);
+   virtual void _invalidateDeps(const std::string& key);
 
 private:
    void erase(const std::string& key);

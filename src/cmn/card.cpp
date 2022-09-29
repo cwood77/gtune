@@ -95,6 +95,48 @@ size_t card::updateLines()
    return nLinesChanged;
 }
 
+void card::addFieldIf(const std::string& tag, std::list<linePatch>& p)
+{
+   if(m_changed.find(tag)==m_changed.end())
+      return; // nope; I don't have a value
+
+   if(tags.find(tag)!=tags.end())
+      return; // nope; I already have this value
+
+   // create a patch
+   linePatch lp;
+   lp.lines.resize(3);
+
+   lp.lines[0].type = line::kTag;
+   lp.lines[0].flags = line::kFlagSingleLineTag;
+   lp.lines[0].tag = tag;
+   lp.lines[0].text = std::string("{{") + tag + "}}";
+
+   lp.lines[1].type = line::kPayload;
+   lp.lines[1].text = m_fieldCache[tag];
+
+   lp.lines[2].type = line::kBlankLine;
+
+   // find the last tag in my card
+   size_t maxLineNo = 0;
+   for(auto it=tags.begin();it!=tags.end();++it)
+      if(it->second->index > maxLineNo)
+         maxLineNo = it->second->index;
+
+   // find line after that tag (and its payload)
+   lines& L = *tags.begin()->second->pOwner;
+   size_t at = maxLineNo + 1;
+   for(;at < L.l.size();at++)
+   {
+      auto& l = L.l[at];
+      if(l.type == line::kTag)
+         break;
+   }
+   lp.at = at;
+
+   p.push_back(lp);
+}
+
 void schemaBuilder::build(lines& l, cardSchema& s)
 {
    schemaBuilder self(s);
