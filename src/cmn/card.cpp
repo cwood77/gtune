@@ -175,7 +175,8 @@ void cardSet::fill(cards& C)
 
 void histogram::add(card& c)
 {
-   m_values[c[m_tag]]++;
+   for(auto tag : tags)
+      m_values[c[tag]]++;
 }
 
 void histogram::format(std::ostream& s)

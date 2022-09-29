@@ -10,7 +10,11 @@ public:
    {
       auto& S = m_s.demand<cardSet>();
 
-      histogram c(m_i.getRestOfLine());
+      histogram c;
+      auto words = m_i.getRemainingWords();
+      for(auto word : words)
+         c.tags.insert(word);
+
       S.addTo(c);
 
       std::cout << std::endl;
