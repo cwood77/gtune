@@ -76,12 +76,32 @@ private:
    bool isLess(const card *pLhs, const card *pRhs) const;
 };
 
+class iCardFilter {
+public:
+   virtual bool isIn(card& c) = 0;
+};
+
+class nullCardFilter : public iCardFilter {
+public:
+   virtual bool isIn(card& c) { return true; }
+};
+
+class boolFilter : public iCardFilter {
+public:
+   explicit boolFilter(const std::string& f) : m_field(f) {}
+
+   virtual bool isIn(card& c);
+
+private:
+   std::string m_field;
+};
+
 class cardSet {
 public:
    cardSortCriteria c;
    std::set<card*,cardSortCriteria> s;
 
-   void fill(cards& C);
+   void fill(cards& C, iCardFilter& f);
 
    template<class T>
    void addTo(T& o)

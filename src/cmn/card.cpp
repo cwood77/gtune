@@ -164,13 +164,19 @@ bool cardSortCriteria::isLess(const card *pLhs, const card *pRhs) const
    return pLhs < pRhs;
 }
 
-void cardSet::fill(cards& C)
+bool boolFilter::isIn(card& c)
+{
+   return c[m_field] != "false";
+}
+
+void cardSet::fill(cards& C, iCardFilter& f)
 {
    // recreate set b/c it copies the criteria
    s = std::set<card*,cardSortCriteria>(c);
 
    for(auto& c : C.c)
-      s.insert(&c);
+      if(f.isIn(c))
+         s.insert(&c);
 }
 
 void histogram::add(card& c)

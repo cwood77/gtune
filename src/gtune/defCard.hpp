@@ -6,6 +6,11 @@ public:
    virtual void createDefault(iStateCatalog& s);
 };
 
+class defaultFilterFactory : public iDefaultStateFactory {
+public:
+   virtual void createDefault(iStateCatalog& s);
+};
+
 class defaultCardSetFactory : public iDefaultStateFactory {
 public:
    virtual void createDefault(iStateCatalog& s);

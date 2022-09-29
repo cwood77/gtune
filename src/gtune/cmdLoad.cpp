@@ -16,6 +16,8 @@ public:
          // just a little hack for testing
          if(path == "!n")
             path = "C:\\Users\\cwood\\Desktop\\game21 - nostoi\\crayon\\adv.txt";
+         else if(path == "!c")
+            path = "C:\\Users\\cwood\\Desktop\\game19 - Cabin in the Woods\\mythos.txt";
 
          std::cout << "loading '" << path << "'" << std::endl;
          std::ifstream fstream(path.c_str());

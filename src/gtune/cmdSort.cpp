@@ -9,6 +9,7 @@ public:
    virtual void run()
    {
       auto& C = m_s.demand<cards>();
+      auto& f = m_s.demand<iCardFilter>();
 
       std::cout << "sorting cards" << std::endl;
 
@@ -16,7 +17,7 @@ public:
       auto cols = m_i.getRemainingWords();
       for(auto col : cols)
          pS->c.fields.push_back(col);
-      pS->fill(C);
+      pS->fill(C,f);
 
       m_s.publish(*pS.release());
       m_s.dependsOn<cardSet,cards>();
