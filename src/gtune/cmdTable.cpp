@@ -10,11 +10,15 @@ public:
    virtual void run()
    {
       auto& S = m_s.demand<cardSet>();
+      auto& C = m_s.demand<cards>();
 
       textTableConfig ttc;
       auto cols = m_i.getRemainingWords();
-      for(auto col : cols)
-         ttc.cols.push_back(col);
+      if(cols.size())
+         for(auto col : cols)
+            ttc.cols.push_back(col);
+      else
+         cardTableBuilder::autoConfigure(ttc,C.s,S.c);
 
       textTableBuilder ttb(ttc);
       {

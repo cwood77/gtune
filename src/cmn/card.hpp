@@ -16,6 +16,12 @@ public:
    std::map<std::string,size_t> tagCounts;
    size_t maxTagCount;
    std::set<std::string> projected;
+   std::list<std::string> tagsInOrder;
+
+   bool isSingleLine(const std::string& tag) const
+   { return singleLineTags.find(tag) != singleLineTags.end(); }
+   bool isSparse(const std::string& tag) const
+   { return tagCounts.find(tag)->second != maxTagCount; }
 };
 
 std::ostream& operator<<(std::ostream& o, const cardSchema& s);

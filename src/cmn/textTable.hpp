@@ -5,6 +5,8 @@
 #include <vector>
 
 class card;
+class cardSchema;
+class cardSortCriteria;
 
 class textTableConfig {
 public:
@@ -12,6 +14,7 @@ public:
 
    std::list<std::string> cols;
    bool hrules;
+   std::map<size_t,size_t> maxWidth;
 };
 
 class textTableBuilder {
@@ -37,6 +40,8 @@ private:
 
 class cardTableBuilder {
 public:
+   static void autoConfigure(textTableConfig& ttc, cardSchema& s, cardSortCriteria& c);
+
    explicit cardTableBuilder(textTableBuilder& ttb) : m_ttb(ttb) {}
 
    void add(card& c);

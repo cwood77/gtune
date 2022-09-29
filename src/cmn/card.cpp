@@ -107,7 +107,10 @@ void schemaBuilder::onTag(line& l)
 {
    bool has = (m_s.tags.find(l.tag)!=m_s.tags.end());
    if(!has)
+   {
       m_s.tags[l.tag] = &l;
+      m_s.tagsInOrder.push_back(l.tag);
+   }
 
    if(l.flags & line::kFlagSingleLineTag)
    {
@@ -131,15 +134,12 @@ std::ostream& operator<<(std::ostream& o, const cardSchema& s)
       << "schema {" << std::endl
    ;
 
-   for(auto it=s.tags.begin();it!=s.tags.end();++it)
+   for(auto tag : s.tagsInOrder)
    {
-      bool isSingleLine = (s.singleLineTags.find(it->first) != s.singleLineTags.end());
-      bool isSparse = (s.tagCounts.find(it->first)->second != s.maxTagCount);
-
-      o << "   " << it->first;
-      if(isSingleLine)
+      o << "   " << tag;
+      if(s.isSingleLine(tag))
          o << " [single-line]";
-      if(isSparse)
+      if(s.isSparse(tag))
          o << " [sparse]";
       o << std::endl;
    }
