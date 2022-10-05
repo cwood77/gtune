@@ -1,0 +1,21 @@
+A word on things, etc.
+
+{{-------------------}}
+
+{{name}}
+foo
+
+{{desc}}
+I knew him, Horatio
+
+{{-------------------}}
+
+{{desc}}
+Alas, poor Yorick,
+
+{{name}}
+bar
+
+{{fieldonlyonecardhas}}
+this one is
+multiple lines
